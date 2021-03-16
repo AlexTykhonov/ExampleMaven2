@@ -24,6 +24,10 @@ public class SimpleGui extends JFrame {
     private JCheckBox checkbox = new JCheckBox("Check", false);
     private JButton jButton = new JButton("Готово!");
 
+    //     Переменные которые будут расчитаны в библиотеке Аннуитатор и придут сюда для вывода в Гуи
+    Double availableLoan = 0.0; //расчетная сумма доступного кредита
+    Double mntPayment = 0.0; //расчетная сумма платежа в месяц
+
 
     public SimpleGui() {
         super("Оцените свою кредитоспособность в 1 клик");
@@ -63,9 +67,10 @@ public class SimpleGui extends JFrame {
 
         public void actionPerformed(ActionEvent actionEvent) {
             String message = "";
-            message += "Button was pressed \n";//message += "Text is " + input.getText() + " \n";
-            message += (button1.isSelected() ? "Button 1" : "Button 2") + " is selected.\n";
-            message += "Checkbox is " + (checkbox.isSelected() ? "selected!\n " : "not selected! \n");
+            message += "Выбрали параметры \n";
+            message += "Ваш доход " + inputIncome.getText() + "\n" + "Период кредита " + inputTerm.getText() + "\n" + "Ставка " + inputRate.getText() + "\n" + "Другие платежи " + inputOthPay.getText() + "\n" + "Доля дохода на кредиты " + inputShare.getText() + "\n";
+            message += (button1.isSelected() ? "Стандартный " : "Аннуитетный") + " график погашения.\n"+ "\n";
+            message += "Доступный кредит: " + availableLoan + "\n" + "Платеж в месяц составит: " + mntPayment;
             JOptionPane.showMessageDialog(null, message, "Output", JOptionPane.PLAIN_MESSAGE);
 
         }
@@ -74,5 +79,78 @@ public class SimpleGui extends JFrame {
     public static void main(String[] args) {
         SimpleGui app = new SimpleGui();
         app.setVisible(true);
+    }
+
+    // getters and setters
+    public double getInputIncome() {
+        return Double.valueOf(inputIncome.toString());
+    }
+
+    public void setInputIncome(JTextField inputIncome) {
+        this.inputIncome = inputIncome;
+    }
+
+    public int getInputTerm() {
+        return Integer.getInteger(inputTerm.toString());
+    }
+
+    public void setInputTerm(JTextField inputTerm) {
+        this.inputTerm = inputTerm;
+    }
+
+    public double getInputRate() {
+        return Double.valueOf(inputRate.toString());
+    }
+
+    public void setInputRate(JTextField inputRate) {
+        this.inputRate = inputRate;
+    }
+
+    public double getInputOthPay() {
+        return Double.valueOf(inputOthPay.toString());
+    }
+
+    public void setInputOthPay(JTextField inputOthPay) {
+        this.inputOthPay = inputOthPay;
+    }
+
+    public double getInputShare() {
+        return Double.valueOf(inputShare.toString());
+    }
+
+    public void setInputShare(JTextField inputShare) {
+        this.inputShare = inputShare;
+    }
+
+    public boolean getButton1() {
+        return Boolean.getBoolean(button1.toString());
+    }
+
+    public void setButton1(JRadioButton button1) {
+        this.button1 = button1;
+    }
+
+    public JRadioButton getButton2() {
+        return button2;
+    }
+
+    public void setButton2(JRadioButton button2) {
+        this.button2 = button2;
+    }
+
+    public Double getAvailableLoan() {
+        return availableLoan;
+    }
+
+    public void setAvailableLoan(Double availableLoan) {
+        this.availableLoan = availableLoan;
+    }
+
+    public Double getMntPayment() {
+        return mntPayment;
+    }
+
+    public void setMntPayment(Double mntPayment) {
+        this.mntPayment = mntPayment;
     }
 }
