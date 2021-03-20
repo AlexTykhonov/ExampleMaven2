@@ -1,3 +1,5 @@
+import Modules.Annuitator;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,8 +30,9 @@ public class SimpleGui extends JFrame {
     Double availableLoan = 0.0; //расчетная сумма доступного кредита
     Double mntPayment = 0.0; //расчетная сумма платежа в месяц
 
+    Annuitator annuitator = new Annuitator();
 
-    public SimpleGui() {
+    public SimpleGui()  {
         super("Оцените свою кредитоспособность в 1 клик");
         this.setBounds(120, 120, 220, 120);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,8 +74,18 @@ public class SimpleGui extends JFrame {
             message += "Ваш доход " + inputIncome.getText() + "\n" + "Период кредита " + inputTerm.getText() + "\n" + "Ставка " + inputRate.getText() + "\n" + "Другие платежи " + inputOthPay.getText() + "\n" + "Доля дохода на кредиты " + inputShare.getText() + "\n";
             message += (button1.isSelected() ? "Стандартный " : "Аннуитетный") + " график погашения.\n"+ "\n";
             message += "Доступный кредит: " + availableLoan + "\n" + "Платеж в месяц составит: " + mntPayment;
-            JOptionPane.showMessageDialog(null, message, "Output", JOptionPane.PLAIN_MESSAGE);
 
+            Double income = Double.valueOf(inputIncome.getText());
+            Double share = Double.valueOf(inputShare.getText()) / 100;
+            Double otherPay = Double.valueOf(inputOthPay.getText());
+            Integer term = Integer.valueOf(inputRate.getText());
+            Double rate = Double.valueOf(inputRate.getText());
+
+            if (button1.isSelected()) {
+                availableLoan= annuitator.getAmountAn(income* share - otherPay, rate/12,term);
+                mntPayment= (Double) annuitator.annPayment(term,rate,availableLoan);
+            }
+            JOptionPane.showMessageDialog(null, message, "Output", JOptionPane.PLAIN_MESSAGE);
         }
     }
 
@@ -83,7 +96,7 @@ public class SimpleGui extends JFrame {
 
     // getters and setters
     public double getInputIncome() {
-        return Double.valueOf(inputIncome.toString());
+        return Double.valueOf(inputIncome.getText());
     }
 
     public void setInputIncome(JTextField inputIncome) {
@@ -91,7 +104,7 @@ public class SimpleGui extends JFrame {
     }
 
     public int getInputTerm() {
-        return Integer.getInteger(inputTerm.toString());
+        return Integer.getInteger(inputTerm.getText());
     }
 
     public void setInputTerm(JTextField inputTerm) {
@@ -99,7 +112,7 @@ public class SimpleGui extends JFrame {
     }
 
     public double getInputRate() {
-        return Double.valueOf(inputRate.toString());
+        return Double.valueOf(inputRate.getText());
     }
 
     public void setInputRate(JTextField inputRate) {
@@ -107,7 +120,7 @@ public class SimpleGui extends JFrame {
     }
 
     public double getInputOthPay() {
-        return Double.valueOf(inputOthPay.toString());
+        return Double.valueOf(inputOthPay.getText());
     }
 
     public void setInputOthPay(JTextField inputOthPay) {
@@ -115,7 +128,7 @@ public class SimpleGui extends JFrame {
     }
 
     public double getInputShare() {
-        return Double.valueOf(inputShare.toString());
+        return Double.valueOf(inputShare.getText());
     }
 
     public void setInputShare(JTextField inputShare) {
@@ -123,7 +136,7 @@ public class SimpleGui extends JFrame {
     }
 
     public boolean getButton1() {
-        return Boolean.getBoolean(button1.toString());
+        return Boolean.getBoolean(button1.getText());
     }
 
     public void setButton1(JRadioButton button1) {
@@ -153,4 +166,5 @@ public class SimpleGui extends JFrame {
     public void setMntPayment(Double mntPayment) {
         this.mntPayment = mntPayment;
     }
+
 }
