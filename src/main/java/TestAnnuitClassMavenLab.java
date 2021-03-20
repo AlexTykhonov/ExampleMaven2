@@ -4,8 +4,8 @@ public class TestAnnuitClassMavenLab {
 
     public static void main(String[] args) {
 
-        SimpleGui simpleGui= new SimpleGui();
-
+        SimpleGui app = new SimpleGui();
+        app.setVisible(true);
         Annuitator annuitator = new Annuitator();
 
         //old test for library

@@ -1,4 +1,5 @@
 import Modules.Annuitator;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,12 +13,12 @@ public class SimpleGui extends JFrame {
     private JTextField inputIncome = new JTextField("1000");
     private JLabel labelTerm = new JLabel("Длина кредита, месяцев");
     private JTextField inputTerm = new JTextField("120");
-    private JLabel labelRate = new JLabel("Ставка по кредиту, % годовых");
-    private JTextField inputRate = new JTextField("12%");
+    private JLabel labelRate = new JLabel("Ставка по кредиту, %% годовых");
+    private JTextField inputRate = new JTextField("12");
     private JLabel labelOthPay = new JLabel("Платите по другим кредитам в месяц");
     private JTextField inputOthPay = new JTextField("100");
-    private JLabel labelShare = new JLabel("Доля дохода в месяц на кредитные платежи?");
-    private JTextField inputShare = new JTextField("40%");
+    private JLabel labelShare = new JLabel("Доля дохода в месяц на кредиты, %%?");
+    private JTextField inputShare = new JTextField("40");
 
     //описываем 2 кнопки для выбора графика погашения по кредиту
     private JRadioButton button1 = new JRadioButton("График - платежи уменьшаются, долг снижается");
@@ -31,7 +32,7 @@ public class SimpleGui extends JFrame {
 
     Annuitator annuitator = new Annuitator();
 
-    public SimpleGui()  {
+    public SimpleGui() {
         super("Оцените свою кредитоспособность в 1 клик");
         this.setBounds(120, 120, 220, 120);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,22 +70,24 @@ public class SimpleGui extends JFrame {
 
         public void actionPerformed(ActionEvent actionEvent) {
             String message = "";
-            message += "Выбрали параметры \n";
+            message += "Вы выбрали параметры \n";
             message += "Ваш доход " + inputIncome.getText() + "\n" + "Период кредита " + inputTerm.getText() + "\n" + "Ставка " + inputRate.getText() + "\n" + "Другие платежи " + inputOthPay.getText() + "\n" + "Доля дохода на кредиты " + inputShare.getText() + "\n";
-            message += (button1.isSelected() ? "Стандартный " : "Аннуитетный") + " график погашения.\n"+ "\n";
+            message += (button1.isSelected() ? "Стандартный " : "Аннуитетный") + " график погашения.\n" + "\n";
             message += "Доступный кредит: " + availableLoan + "\n" + "Платеж в месяц составит: " + mntPayment;
 
             Double income = Double.valueOf(inputIncome.getText());
-            Double share = Double.valueOf(inputShare.getText()) / 100;
+            Double share = Double.valueOf(inputShare.getText());
             Double otherPay = Double.valueOf(inputOthPay.getText());
-            Integer term = Integer.valueOf(inputRate.getText());
+            Integer term = Integer.valueOf(inputTerm.getText());
             Double rate = Double.valueOf(inputRate.getText());
 
             if (button1.isSelected()) {
-                availableLoan= annuitator.getAmountAn(income* share - otherPay, rate/12,term);
-                mntPayment= (Double) annuitator.annPayment(term,rate,availableLoan);
+                availableLoan = annuitator.getAmountAn(income * share/100 - otherPay, rate, term);
+                mntPayment = (Double) annuitator.annPayment(term, rate, availableLoan);
+            } else {
+
             }
-            JOptionPane.showMessageDialog(null, message, "Output", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, message, "Результаты:", JOptionPane.PLAIN_MESSAGE);
         }
     }
 
