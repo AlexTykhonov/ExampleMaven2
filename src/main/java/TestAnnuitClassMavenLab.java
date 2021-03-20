@@ -6,7 +6,6 @@ public class TestAnnuitClassMavenLab {
 
         SimpleGui app = new SimpleGui();
         app.setVisible(true);
-        Annuitator annuitator = new Annuitator();
 
         //old test for library
         //System.out.println(annuitator.annPayment(12, 25, 10000));
