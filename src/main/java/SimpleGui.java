@@ -1,5 +1,4 @@
 import Modules.Annuitator;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -94,77 +93,5 @@ public class SimpleGui extends JFrame {
         app.setVisible(true);
     }
 
-    // getters and setters
-    public double getInputIncome() {
-        return Double.valueOf(inputIncome.getText());
-    }
-
-    public void setInputIncome(JTextField inputIncome) {
-        this.inputIncome = inputIncome;
-    }
-
-    public int getInputTerm() {
-        return Integer.getInteger(inputTerm.getText());
-    }
-
-    public void setInputTerm(JTextField inputTerm) {
-        this.inputTerm = inputTerm;
-    }
-
-    public double getInputRate() {
-        return Double.valueOf(inputRate.getText());
-    }
-
-    public void setInputRate(JTextField inputRate) {
-        this.inputRate = inputRate;
-    }
-
-    public double getInputOthPay() {
-        return Double.valueOf(inputOthPay.getText());
-    }
-
-    public void setInputOthPay(JTextField inputOthPay) {
-        this.inputOthPay = inputOthPay;
-    }
-
-    public double getInputShare() {
-        return Double.valueOf(inputShare.getText());
-    }
-
-    public void setInputShare(JTextField inputShare) {
-        this.inputShare = inputShare;
-    }
-
-    public boolean getButton1() {
-        return Boolean.getBoolean(button1.getText());
-    }
-
-    public void setButton1(JRadioButton button1) {
-        this.button1 = button1;
-    }
-
-    public JRadioButton getButton2() {
-        return button2;
-    }
-
-    public void setButton2(JRadioButton button2) {
-        this.button2 = button2;
-    }
-
-    public Double getAvailableLoan() {
-        return availableLoan;
-    }
-
-    public void setAvailableLoan(Double availableLoan) {
-        this.availableLoan = availableLoan;
-    }
-
-    public Double getMntPayment() {
-        return mntPayment;
-    }
-
-    public void setMntPayment(Double mntPayment) {
-        this.mntPayment = mntPayment;
-    }
 
 }
