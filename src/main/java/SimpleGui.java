@@ -75,6 +75,7 @@ public class SimpleGui extends JFrame {
             message += (button1.isSelected() ? "Стандартный " : "Аннуитетный") + " график погашения.\n" + "\n";
             message += "Доступный кредит: " + availableLoan + "\n" + "Платеж в месяц составит: " + mntPayment;
 
+            // ловим ошибки ввода
             Double income = Double.valueOf(inputIncome.getText());
             Double share = Double.valueOf(inputShare.getText());
             Double otherPay = Double.valueOf(inputOthPay.getText());
@@ -82,10 +83,12 @@ public class SimpleGui extends JFrame {
             Double rate = Double.valueOf(inputRate.getText());
 
             if (button1.isSelected()) {
-                availableLoan = annuitator.getAmountAn(income * share/100 - otherPay, rate, term);
-                mntPayment = (Double) annuitator.annPayment(term, rate, availableLoan);
-            } else {
+                availableLoan = Math.ceil(annuitator.getAmountAn(income * share / 100 - otherPay, rate, term));
+                mntPayment = Math.ceil((Double) annuitator.annPayment(term, rate, availableLoan));
 
+            } else {
+                availableLoan = Math.ceil(annuitator.getAmountStnd(income * share / 100 - otherPay, rate, term));
+                mntPayment = Math.ceil((availableLoan/term)+(availableLoan*rate/1200));
             }
             JOptionPane.showMessageDialog(null, message, "Результаты:", JOptionPane.PLAIN_MESSAGE);
         }
