@@ -58,39 +58,55 @@ public class SimpleGui extends JFrame {
         group.add(button1);
         group.add(button2);
         container.add(button1);
-        button1.setSelected(true);
         container.add(button2);
-        jButton.addActionListener(new ButtonEventListener());
+        button1.setSelected(true);
+
         container.add(jButton);
         jButton.setBackground(Color.gray);
         pack();
+
+        jButton.addActionListener(new ButtonEventListener());
+
     }
 
     class ButtonEventListener implements ActionListener {
 
         public void actionPerformed(ActionEvent actionEvent) {
-            String message = "";
-            message += "Вы выбрали параметры \n";
-            message += "Ваш доход " + inputIncome.getText() + "\n" + "Период кредита " + inputTerm.getText() + "\n" + "Ставка " + inputRate.getText() + "\n" + "Другие платежи " + inputOthPay.getText() + "\n" + "Доля дохода на кредиты " + inputShare.getText() + "\n";
-            message += (button1.isSelected() ? "Стандартный " : "Аннуитетный") + " график погашения.\n" + "\n";
-            message += "Доступный кредит: " + availableLoan + "\n" + "Платеж в месяц составит: " + mntPayment;
 
-            // ловим ошибки ввода
-            Double income = Double.valueOf(inputIncome.getText());
-            Double share = Double.valueOf(inputShare.getText());
-            Double otherPay = Double.valueOf(inputOthPay.getText());
-            Integer term = Integer.valueOf(inputTerm.getText());
-            Double rate = Double.valueOf(inputRate.getText());
 
-            if (button1.isSelected()) {
-                availableLoan = Math.ceil(annuitator.getAmountAn(income * share / 100 - otherPay, rate, term));
-                mntPayment = Math.ceil((Double) annuitator.annPayment(term, rate, availableLoan));
+            // ловим ошибки формата введенных значений, должны быть текстовые поля похожие на числа, не текст, не пустота
 
-            } else {
-                availableLoan = Math.ceil(annuitator.getAmountStnd(income * share / 100 - otherPay, rate, term));
-                mntPayment = Math.ceil((availableLoan/term)+(availableLoan*rate/1200));
+            try {
+                Double i = Double.valueOf(inputIncome.getText());
+                Double s = Double.valueOf(inputShare.getText());
+                Double o = Double.valueOf(inputOthPay.getText());
+                Integer t = Integer.valueOf(inputTerm.getText());
+                Double r = Double.valueOf(inputRate.getText());
+            } catch (Exception e) {
+                String messageError = "Проверьте введенные значения";
+                JOptionPane.showMessageDialog(null, messageError, "Формат ввода!", JOptionPane.PLAIN_MESSAGE);
+            } finally {
+                Double income = Double.valueOf(inputIncome.getText());
+                Double share = Double.valueOf(inputShare.getText());
+                Double otherPay = Double.valueOf(inputOthPay.getText());
+                Integer term = Integer.valueOf(inputTerm.getText());
+                Double rate = Double.valueOf(inputRate.getText());
+
+                if (button1.isSelected()) {
+                    availableLoan = Math.ceil(annuitator.getAmountAn(income * share / 100 - otherPay, rate, term));
+                    mntPayment = Math.ceil((Double) annuitator.annPayment(term, rate, availableLoan));
+
+                } else if (button2.isSelected()) {
+                    availableLoan = Math.ceil(annuitator.getAmountStnd(income * share / 100 - otherPay, rate, term));
+                    mntPayment = Math.ceil((availableLoan / term) + (availableLoan * rate / 1200));
+                }
+                String message = "";
+                message += "Вы выбрали параметры \n";
+                message += "Ваш доход " + inputIncome.getText() + "\n" + "Период кредита " + inputTerm.getText() + "\n" + "Ставка " + inputRate.getText() + "\n" + "Другие платежи " + inputOthPay.getText() + "\n" + "Доля дохода на кредиты " + inputShare.getText() + "\n";
+                message += (button1.isSelected() ? "Стандартный " : "Аннуитетный") + " график погашения.\n" + "\n----------------\n" + "\n";
+                message += "Вам доступен кредит: " + availableLoan + "\n" + "Платеж в месяц: " + mntPayment;
+                JOptionPane.showMessageDialog(null, message, "Результаты:", JOptionPane.PLAIN_MESSAGE);
             }
-            JOptionPane.showMessageDialog(null, message, "Результаты:", JOptionPane.PLAIN_MESSAGE);
         }
     }
 
